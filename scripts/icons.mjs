@@ -39,4 +39,24 @@ png(maskable, 192, 'public/icons/maskable-192.png');
 png(maskable, 512, 'public/icons/maskable-512.png');
 png(svg(bg(0) + cup(0.8)), 180, 'public/icons/apple-touch-icon.png');
 png(badge, 96, 'public/icons/badge.png');
-console.log('icons written to public/icons');
+
+// 1200×630 link-preview card (Open Graph / Twitter). Rendered with a system font, then committed as a PNG.
+const card = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bgc" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#211915"/><stop offset="1" stop-color="#130d0b"/></linearGradient>
+    <radialGradient id="glow" cx="0.85" cy="0.1" r="0.7"><stop offset="0" stop-color="#ffb59a" stop-opacity="0.28"/><stop offset="1" stop-color="#ffb59a" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bgc)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <g transform="translate(96 155) scale(0.625)">${bg(112)}${cup(0.92)}</g>
+  <g font-family="Segoe UI, Inter, Helvetica, Arial, sans-serif">
+    <text x="476" y="270" font-size="104" font-weight="700" fill="#f7ebe4" letter-spacing="-3">Khata</text>
+    <text x="480" y="340" font-size="38" font-weight="500" fill="#ffb59a">Expense tracker for India and Nepal</text>
+    <text x="480" y="410" font-size="30" fill="#f7ebe4" fill-opacity="0.66">Log a purchase in two taps. Reads bank and</text>
+    <text x="480" y="452" font-size="30" fill="#f7ebe4" fill-opacity="0.66">wallet SMS. Private, offline, no account.</text>
+  </g>
+  <rect x="96" y="540" width="1008" height="1" fill="#f7ebe4" fill-opacity="0.12"/>
+  <text x="96" y="584" font-family="Segoe UI, Inter, Helvetica, Arial, sans-serif" font-size="24" fill="#f7ebe4" fill-opacity="0.5">chocolatewafer.github.io/Khata</text>
+</svg>`;
+writeFileSync('public/social-card.png', new Resvg(card, { font: { loadSystemFonts: true, defaultFontFamily: 'Segoe UI' } }).render().asPng());
+console.log('icons and social card written to public/');

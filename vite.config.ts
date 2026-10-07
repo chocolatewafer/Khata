@@ -7,6 +7,8 @@ import react from '@vitejs/plugin-react';
 const pkg = JSON.parse(readFileSync('package.json', 'utf8'));
 // "/" for local and custom-domain hosting; the GitHub Pages workflow sets BASE=/Khata/
 const base = process.env.BASE ?? '/';
+// absolute address of the deployed app, used by link-preview tags (crawlers need full URLs); falls back to the base path
+const siteUrl = (process.env.SITE_URL ?? base).replace(/\/?$/, '/');
 
 const walk = (dir: string): string[] =>
   readdirSync(dir).flatMap((f) => (statSync(join(dir, f)).isDirectory() ? walk(join(dir, f)) : [join(dir, f)]));
@@ -27,7 +29,8 @@ function serviceWorker(): Plugin {
     async closeBundle() {
       const pub = walk('public').map((f) => f.slice('public'.length).replace(/\\/g, '/').replace(/^\//, ''));
       // only Latin font subsets up front; other scripts load (and get cached) if a page ever needs them
-      const hostConfig = ['_redirects', '_headers'];
+      // host config and the link-preview image are for servers and crawlers, not needed offline
+      const hostConfig = ['_redirects', '_headers', 'social-card.png'];
       const wanted = (f: string) => f !== 'index.html' && f !== '404.html' && f !== 'sw.js' && !hostConfig.includes(f) && (!f.endsWith('.woff2') || /-latin(-ext)?-/.test(f));
       const precache = [base, ...[...files, ...pub].filter(wanted).map((f) => `${base}${f}`)];
       // GitHub Pages has no SPA rewrites; it serves 404.html for unknown paths, so make that the app too
@@ -49,7 +52,11 @@ function serviceWorker(): Plugin {
 
 export default defineConfig({
   base,
-  plugins: [react(), serviceWorker()],
+  plugins: [
+    react(),
+    serviceWorker(),
+    { name: 'khata-site-url', transformIndexHtml: (html) => html.replaceAll('%SITE_URL%', siteUrl) },
+  ],
   define: { __APP_VERSION__: JSON.stringify(pkg.version) },
   test: { environment: 'node' },
 });
