@@ -1,0 +1,64 @@
+/* Floating calculator pill and its panel. Tokens only; see docs/PLAN.md section 2. */
+
+.calc-safe {
+  position: fixed; inset: 0; visibility: hidden; pointer-events: none; z-index: -1;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+.calc-pill {
+  position: fixed; left: 0; top: 0; z-index: 30;
+  display: inline-flex; align-items: center; gap: 8px; height: 44px; min-width: 44px; max-width: 200px; padding: 0 16px 0 12px;
+  border: 0.5px solid var(--glass-border); border-radius: 999px;
+  background: var(--glass); -webkit-backdrop-filter: blur(24px) saturate(180%); backdrop-filter: blur(24px) saturate(180%);
+  color: var(--label); box-shadow: var(--shadow-float);
+  font: 600 16px/20px var(--font-rounded); letter-spacing: -0.2px;
+  touch-action: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; cursor: grab;
+  transition: transform 0.38s var(--ease), background-color 0.2s, box-shadow 0.2s;
+  animation: calc-in 0.4s var(--ease) both;
+}
+.calc-pill.bare { padding: 0; width: 44px; justify-content: center; }
+.calc-pill > svg { color: var(--accent); flex: none; }
+.calc-pill-val { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.calc-pill.dragging { transition: none; cursor: grabbing; box-shadow: var(--shadow-float), 0 0 0 2px var(--accent-tint); }
+.calc-pill.open { background: var(--accent); color: var(--on-accent); border-color: transparent; }
+.calc-pill.open > svg { color: var(--on-accent); }
+.calc-pill.still { transition: none; animation: none; }
+.calc-pill:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.calc-panel {
+  position: fixed; z-index: 31; width: 280px; max-width: calc(100vw - 16px); padding: 12px;
+  display: grid; gap: 10px;
+  background: var(--bg-elev); color: var(--label); border-radius: 22px;
+  border: 0.5px solid var(--glass-border); box-shadow: var(--shadow-float); outline: none;
+  animation: calc-pop 0.26s var(--ease) both;
+}
+.calc-panel.measuring { visibility: hidden; left: 0; top: 0; animation: none; }
+.calc-display { padding: 4px 6px 2px; text-align: right; min-width: 0; }
+.calc-expr {
+  font-size: 13px; line-height: 18px; color: var(--label-2); font-variant-numeric: tabular-nums;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; direction: ltr;
+}
+.calc-result {
+  font: 700 34px/40px var(--font-rounded); letter-spacing: -0.8px;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.calc-result.s { font-size: 26px; }
+.calc-result.empty { color: var(--label-3); }
+.calc-actions { display: flex; gap: 6px; }
+.calc-actions .btn { min-height: 40px; padding: 0 10px; font-size: 14px; flex: 1 1 auto; }
+.calc-actions .btn.filled { flex: 2 1 auto; }
+.calc-actions .calc-clear { flex: 0 0 44px; padding: 0; }
+
+@keyframes calc-in { from { opacity: 0; } }
+@keyframes calc-pop { from { opacity: 0; transform: scale(0.94); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .calc-pill, .calc-panel { transition: none; animation: none; }
+}
+@media print { .calc-pill, .calc-panel { display: none !important; } }
+
+/* phones and tablets: the pill's lowest spot is just above the tab bar, so give pages that much more
+   bottom room; the last row of content can always scroll clear of the pill and the dock */
+@media (max-width: 1023px) {
+  body:has(.calc-pill) .app:not(.bare) .main { padding-bottom: calc(var(--dock-space) + 32px); }
+}

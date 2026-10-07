@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="description" content="Khata is a calm, private expense tracker for India and Nepal. Reads bank and wallet SMS, works offline, no account needed." />
+    <meta name="theme-color" content="#f6f1ed" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#130d0b" media="(prefers-color-scheme: dark)" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Khata" />
+    <meta property="og:title" content="Khata: expense tracker" />
+    <meta property="og:description" content="A calm, private expense tracker. Everything stays on your phone." />
+    <meta property="og:image" content="/icons/icon-512.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/icons/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <title>Khata</title>
+    <script>
+      // apply the saved theme before first paint so there is no flash
+      try {
+        var t = JSON.parse(localStorage.getItem('khata-settings') || '{}').theme;
+        if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

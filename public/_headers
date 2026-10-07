@@ -1,0 +1,10 @@
+/*
+  X-Frame-Options: DENY
+  Content-Security-Policy: frame-ancestors 'none'
+  Referrer-Policy: no-referrer
+  X-Content-Type-Options: nosniff
+  Permissions-Policy: geolocation=(), microphone=()
+/sw.js
+  Cache-Control: no-cache
+/index.html
+  Cache-Control: no-cache
