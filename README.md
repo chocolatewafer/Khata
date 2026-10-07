@@ -98,3 +98,7 @@ Khata has no backend. Transactions, settings and receipts live in your browser's
 
 Made by **[Chocolate Wafer](https://github.com/chocolatewafer)**.
 Layout inspired by [Paisa](https://paisa-tracker.app/) by Hemanth Savarala. Built with [React](https://react.dev), [Dexie](https://dexie.org), [Lucide](https://lucide.dev) icons and the [Inter](https://rsms.me/inter/) typeface.
+
+## License
+
+[MIT](LICENSE) © Chocolate Wafer

@@ -4,6 +4,7 @@
   "private": true,
   "description": "A calm, private, offline expense tracker for India and Nepal. Reads bank and wallet SMS.",
   "author": "Chocolate Wafer (https://github.com/chocolatewafer)",
+  "license": "MIT",
   "homepage": "https://chocolatewafer.github.io/Khata/",
   "repository": {
     "type": "git",
